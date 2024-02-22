@@ -6,14 +6,18 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prettier-format": "prettier --config .prettierrc 'src/**/*.ts|src/**/*.tsx' --write"
   },
   "dependencies": {
+    "matter-js": "^0.19.0",
+    "next": "14.1.0",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.1.0"
+    "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/matter-js": "^0.19.6",
+    "prettier": "^3.2.5",
     "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
