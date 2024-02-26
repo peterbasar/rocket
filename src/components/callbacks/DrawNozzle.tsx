@@ -8,7 +8,7 @@ export default function DrawNozzle({ rocketRef }: { rocketRef: React.RefObject<M
 
     useEffect(() => {
         /* Set callback if not already set */
-        if (worldContext && worldContext.isSetup && !(callbackName in worldContext?.callbacks)) {
+        if (worldContext && !(callbackName in worldContext?.callbacks)) {
             worldContext.setCallbacks({
                 ...worldContext.callbacks,
                 [callbackName]: () => {
@@ -47,7 +47,7 @@ export default function DrawNozzle({ rocketRef }: { rocketRef: React.RefObject<M
                 )
             }
         }
-    }, [rocketRef.current, worldContext?.isSetup])
+    }, [rocketRef.current])
 
     return (<></>)
 }

@@ -3,21 +3,26 @@ import M from 'matter-js'
 import { useEffect, useRef } from 'react'
 import WorldContextProvider from '@/src/context/WorldContextProvider'
 import WorldCallbacksType from '@/src/types/WorldCallbacksType'
+import usePub from '@/src/bus/usePub'
+import messageTypes from '../bus/messageTypes'
 
 export default function World({ children }: { children?: React.ReactNode }) {
-    const physicsCanvasRef = useRef<HTMLCanvasElement | undefined>()
-    const renderCanvasRef = useRef<HTMLCanvasElement | undefined>()
-    const engineRef = useRef<M.Engine | undefined>()
-    const renderRef = useRef<M.Render | undefined>()
-    const runnerRef = useRef<M.Runner | undefined>()
-    const [focusObj, setFocusObj] = useState<M.Body | undefined>()
+    const [rerender, setRerender] = useState(Date.now())
+    const physicsCanvasRef = useRef<HTMLCanvasElement | null>(null)
+    const renderCanvasRef = useRef<HTMLCanvasElement | null>(null)
+    const engineRef = useRef<M.Engine | null>()
+    const renderRef = useRef<M.Render | null>()
+    const runnerRef = useRef<M.Runner | null>()
+    const [focusObj, setFocusObj] = useState<M.Body | null>(null)
     const isInitialised = useRef(false)
-    const [isSetup, setIsSetup] = useState(false)
+    const pubSetupFinished = usePub({
+        messageType: messageTypes['WORLD_SETUP_FINISHED']
+    })
 
     const [callbacks, setCallbacks] = useState<WorldCallbacksType>({})
     const [updateTime, setUpdateTime] = useState(50)
     const [tick, setTick] = useState(1)
-    const tickerInterval = useRef<NodeJS.Timeout | undefined>(undefined)
+    const tickerInterval = useRef<NodeJS.Timeout | null>(null)
 
     /* Ticker setup */
     useEffect(() => {
@@ -25,13 +30,12 @@ export default function World({ children }: { children?: React.ReactNode }) {
             /* Clear existing ticker */
             if (tickerInterval.current) {
                 clearInterval(tickerInterval.current)
-                tickerInterval.current = undefined
+                tickerInterval.current = null
             }
 
             /* Set world ticker */
             tickerInterval.current = setInterval(() => {
                 /* Call all callbacks */
-                console.log('Callbacks:', callbacks)
                 Object.values(callbacks).forEach((callback) => callback())
 
                 /* Move engine by a 'tick' amounts */
@@ -41,7 +45,6 @@ export default function World({ children }: { children?: React.ReactNode }) {
             }, updateTime)
         }
     }, [tick, updateTime, callbacks])
-
 
 
     /* World setup */
@@ -86,15 +89,16 @@ export default function World({ children }: { children?: React.ReactNode }) {
             // run the renderer
             M.Render.run(renderRef.current)
 
-            // Inform children that setup finished
-            setIsSetup(true)
+            // Inform bus that world setup finished
+            setRerender(Date.now())
+            setTimeout(() => pubSetupFinished.publish(), 1000)
         }
     }, [physicsCanvasRef.current])
 
     return (
         <div>
             <canvas id='physics-canvas' ref={physicsCanvasRef} />
-            <canvas id='color-canvas' ref={renderCanvasRef}
+            {/* <canvas id='color-canvas' ref={renderCanvasRef}
                 style={{
                     position: 'absolute',
                     zIndex: 10,
@@ -104,9 +108,9 @@ export default function World({ children }: { children?: React.ReactNode }) {
                     height: window.innerHeight,
                     backgroundColor: 'rgba(50,50,50,0.5)'
                 }}
-            />
+            /> */}
             {
-                (physicsCanvasRef.current && renderCanvasRef.current && engineRef.current && renderRef.current && runnerRef.current) ? (
+                (physicsCanvasRef.current && engineRef.current && renderRef.current && runnerRef.current) ? (
                     <WorldContextProvider
                         physicsCanvasRef={physicsCanvasRef as React.RefObject<HTMLCanvasElement>}
                         renderCanvasRef={renderCanvasRef as React.RefObject<HTMLCanvasElement>}
@@ -117,7 +121,6 @@ export default function World({ children }: { children?: React.ReactNode }) {
                         setFocusObj={setFocusObj}
                         callbacks={callbacks}
                         setCallbacks={setCallbacks}
-                        isSetup={isSetup}
                     >
                         {children}
                     </WorldContextProvider>

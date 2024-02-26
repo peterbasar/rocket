@@ -8,14 +8,13 @@ interface WorldContextInterface {
     engineRef: RefObject<M.Engine>,
     renderRef: RefObject<M.Render>,
     runnerRef: React.RefObject<M.Runner>,
-    focusObj: M.Body | undefined,
-    setFocusObj: React.Dispatch<React.SetStateAction<M.Body | undefined>>,
+    focusObj: M.Body | null,
+    setFocusObj: React.Dispatch<React.SetStateAction<M.Body | null>>,
     callbacks: WorldCallbacksType,
     setCallbacks: React.Dispatch<React.SetStateAction<WorldCallbacksType>>,
-    isSetup: boolean,
 }
 
-export const WorldContext = createContext<WorldContextInterface | undefined>(undefined)
+export const WorldContext = createContext<WorldContextInterface | null>(null)
 
 export default function WorldContextProvider({
     physicsCanvasRef,
@@ -27,7 +26,6 @@ export default function WorldContextProvider({
     setFocusObj,
     callbacks,
     setCallbacks,
-    isSetup,
     children,
 }: WorldContextInterface & { children: React.ReactNode }
 ) {
@@ -42,7 +40,6 @@ export default function WorldContextProvider({
             setFocusObj,
             callbacks,
             setCallbacks,
-            isSetup,
         }}>
             {children}
         </WorldContext.Provider>
