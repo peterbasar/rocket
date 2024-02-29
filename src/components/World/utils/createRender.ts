@@ -8,7 +8,7 @@ export default function createRender({
     engineRef: WorldTypes['engineRef']
     physicsCanvasRef: WorldTypes['physicsCanvasRef']
 }) {
-    if (engineRef.current) {
+    if (engineRef.current && physicsCanvasRef && physicsCanvasRef.current) {
         return M.Render.create({
             element: document.body,
             engine: engineRef.current,

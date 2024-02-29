@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, LegacyRef } from 'react'
 import M from 'matter-js'
 import usePub from '@/src/bus/usePub'
 import messageTypes from '@/src/bus/messageTypes'
@@ -7,7 +7,7 @@ import { addRocket, createRender, addGround } from './utils'
 import useTicker from './hooks/useTicker'
 
 export default function World() {
-    const physicsCanvasRef: WorldTypes['physicsCanvasRef'] = useRef()
+    const physicsCanvasRef: WorldTypes['rocketRef'] = useRef()
     const rocketRef: WorldTypes['rocketRef'] = useRef()
     const engineRef: WorldTypes['engineRef'] = useRef()
     const renderRef: WorldTypes['renderRef'] = useRef()
@@ -51,10 +51,10 @@ export default function World() {
             setTimeout(() => pubSetupFinished.publish(), 1000)
         }
     }, [physicsCanvasRef.current])
-
+//
     return (
         <div>
-            <canvas id="physics-canvas" ref={physicsCanvasRef} />
+            <canvas ref={physicsCanvasRef as LegacyRef<HTMLCanvasElement>} />
         </div>
     )
 }
