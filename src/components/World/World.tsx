@@ -14,7 +14,7 @@ export default function World() {
     const runnerRef: WorldTypes['runnerRef'] = useRef()
     const isInitialised = useRef(false)
     const pubSetupFinished = usePub({
-        messageType: messageTypes['WORLD_SETUP_FINISHED']
+        messageType: messageTypes['WORLD_SETUP_FINISHED'],
     })
 
     const [updateTime, setUpdateTime] = useState(50)
@@ -54,10 +54,7 @@ export default function World() {
 
     return (
         <div>
-            <canvas
-                id='physics-canvas'
-                ref={physicsCanvasRef}
-            />
+            <canvas id="physics-canvas" ref={physicsCanvasRef} />
         </div>
     )
 }

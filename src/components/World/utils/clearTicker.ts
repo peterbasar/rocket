@@ -1,4 +1,4 @@
-import { WorldTypes } from "@/src/types/WorldTypes"
+import { WorldTypes } from '@/src/types/WorldTypes'
 
 export default function clearTicker(tickerInterval: WorldTypes['tickerInterval']) {
     if (tickerInterval.current) {

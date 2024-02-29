@@ -2,10 +2,11 @@ import M from 'matter-js'
 import { WorldTypes } from '@/src/types/WorldTypes'
 
 export default function createRender({
-    engineRef, physicsCanvasRef
+    engineRef,
+    physicsCanvasRef,
 }: {
-    engineRef: WorldTypes['engineRef'],
-    physicsCanvasRef: WorldTypes['physicsCanvasRef'],
+    engineRef: WorldTypes['engineRef']
+    physicsCanvasRef: WorldTypes['physicsCanvasRef']
 }) {
     if (engineRef.current) {
         return M.Render.create({
@@ -24,7 +25,7 @@ export default function createRender({
                 showDebug: true,
                 showStats: true,
                 showPositions: true,
-            }
+            },
         })
     }
     return

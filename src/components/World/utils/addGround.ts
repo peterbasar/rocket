@@ -1,9 +1,7 @@
 import M from 'matter-js'
 import { WorldTypes } from '@/src/types/WorldTypes'
 
-export default function addGround({ engineRef }: {
-    engineRef: WorldTypes['engineRef']
-}) {
+export default function addGround({ engineRef }: { engineRef: WorldTypes['engineRef'] }) {
     if (engineRef.current) {
         const ground = M.Bodies.rectangle(
             window.innerWidth / 2,

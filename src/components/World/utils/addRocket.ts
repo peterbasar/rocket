@@ -1,17 +1,23 @@
 import { WorldTypes } from '@/src/types/WorldTypes'
 import M from 'matter-js'
 
-export default function addRocket({ engineRef, rocketRef }: {
-    engineRef: WorldTypes['engineRef'],
-    rocketRef: WorldTypes['rocketRef'],
+export default function addRocket({
+    engineRef,
+    rocketRef,
+}: {
+    engineRef: WorldTypes['engineRef']
+    rocketRef: WorldTypes['rocketRef']
 }) {
     if (!rocketRef.current && engineRef.current) {
         rocketRef.current = M.Bodies.rectangle(
-            window.innerWidth / 2, window.innerHeight / 2, 50, 100
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            50,
+            100,
         )
         M.Composite.add(engineRef.current.world, [rocketRef.current])
     } else {
-        console.error('Could not initialize the Rocket');
+        console.error('Could not initialize the Rocket')
     }
 }
 

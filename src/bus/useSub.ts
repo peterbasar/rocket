@@ -1,21 +1,22 @@
-import { useEffect, useContext, useState } from "react"
-import { messageTypesI } from "./messageTypes"
-import { BusContext } from "./BusContextProvider"
+import { useEffect, useContext, useState } from 'react'
+import { messageTypesI } from './messageTypes'
+import { BusContext } from './BusContextProvider'
 
 interface useSubI {
-    id: string,
-    messageType: messageTypesI,
-    unsub: () => void,
+    id: string
+    messageType: messageTypesI
+    unsub: () => void
 }
 
-export default function useSub({ messageType, fn }: {
-    messageType: messageTypesI,
-    fn: (...props: any) => void,
+export default function useSub({
+    messageType,
+    fn,
+}: {
+    messageType: messageTypesI
+    fn: (...props: any) => void
 }): useSubI {
     const busContext = useContext(BusContext)
-    const [id,] = useState(
-        `${messageType}_${Date.now()}_${crypto.randomUUID()} `
-    )
+    const [id] = useState(`${messageType}_${Date.now()}_${crypto.randomUUID()} `)
 
     useEffect(() => {
         console.debug(`useSub registered: ${messageType}`)
@@ -25,7 +26,7 @@ export default function useSub({ messageType, fn }: {
             fn: (...props: any) => {
                 console.debug(`useSub triggered: ${messageType}, props: ${props}`)
                 return fn(...props)
-            }
+            },
         })
     }, [])
 

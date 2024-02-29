@@ -6,9 +6,9 @@ import BusContextProvider from '@/src/bus/BusContextProvider'
 const World = dynamic(() => import('../components/World/World'), { ssr: false })
 
 export default function Home() {
-  return (
-    <BusContextProvider>
-      <World />
-    </BusContextProvider>
-  )
+    return (
+        <BusContextProvider>
+            <World />
+        </BusContextProvider>
+    )
 }
