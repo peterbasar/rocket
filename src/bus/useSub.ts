@@ -19,12 +19,12 @@ export default function useSub({
     const [id] = useState(`${messageType}_${Date.now()}_${crypto.randomUUID()} `)
 
     useEffect(() => {
-        console.debug(`useSub registered: ${messageType}`)
+        // console.debug(`useSub registered: ${messageType}`)
         busContext?.addSub({
             id,
             messageType,
             fn: (...props: any) => {
-                console.debug(`useSub triggered: ${messageType}, props: ${props}`)
+                // console.debug(`useSub triggered: ${messageType}, props: ${props}`)
                 return fn(...props)
             },
         })

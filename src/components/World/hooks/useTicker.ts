@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 import { clearTicker, setWorldTicker } from '../utils'
 import { WorldTypes } from '@/src/types/WorldTypes'
+import usePub from '@/src/bus/usePub'
+import messageTypes from '@/src/bus/messageTypes'
 
 export default function useTicker({
     tickerInterval,
@@ -19,13 +21,15 @@ export default function useTicker({
     renderRef: WorldTypes['renderRef']
     rocketRef: WorldTypes['rocketRef']
 }) {
+    const tickPublisher = usePub({ messageType: messageTypes.PHYSICS_TICK })
+
     useEffect(() => {
         if (engineRef.current && runnerRef.current && renderRef.current) {
             clearTicker(tickerInterval)
 
             /* Set world ticker */
             tickerInterval.current = setWorldTicker({
-                tickerInterval,
+                tickPublisher,
                 updateTime,
                 tickTime,
                 engineRef,

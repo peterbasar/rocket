@@ -17,7 +17,7 @@ export default function World() {
         messageType: messageTypes['WORLD_SETUP_FINISHED'],
     })
 
-    const [updateTime, setUpdateTime] = useState(50)
+    const [updateTime, setUpdateTime] = useState(15)
     const [tickTime, setTickTime] = useState(1)
     const tickerInterval: WorldTypes['tickerInterval'] = useRef()
 
@@ -51,7 +51,7 @@ export default function World() {
             setTimeout(() => pubSetupFinished.publish(), 1000)
         }
     }, [physicsCanvasRef.current])
-//
+
     return (
         <div>
             <canvas ref={physicsCanvasRef as LegacyRef<HTMLCanvasElement>} />
