@@ -53,7 +53,7 @@ export default function World() {
             /* Inform bus that world setup finished */
             setTimeout(() => pubSetupFinished.publish(), 1000)
         }
-    }, [physicsCanvasRef.current])
+    }, [])
 
     return (
         <div>

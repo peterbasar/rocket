@@ -66,5 +66,5 @@ export default function useTicker({
 
     useEffect(() => {
         tickerSetup({ tickerInterval, tickTime, updateTime })
-    }, [tickTime, updateTime, engineRef.current, runnerRef.current, renderRef.current])
+    }, [tickTime, updateTime])
 }
