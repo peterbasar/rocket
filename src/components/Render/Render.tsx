@@ -28,14 +28,15 @@ export default function Render() {
     })
 
     useEffect(() => {
+        const imageObj1 = new Image()
+        imageObj1.src = Img.src
+
         clearTicker(tickerInterval)
         tickerInterval.current = setInterval(() => {
             if (renderCanvasRef && renderCanvasRef.current) {
                 const ctx = renderCanvasRef.current.getContext('2d')
 
-                const imageObj1 = new Image()
-                imageObj1.src = Img.src
-                imageObj1.onload = function () {
+                if (imageObj1.complete) {
                     if (ctx && rocketRef && rocketRef.current) {
                         ctx.clearRect(0, 0, window.innerWidth, window.innerHeight)
 
