@@ -13,17 +13,19 @@ export default function useSub({
     fn,
 }: {
     messageType: messageTypesI
-    fn: (...props: any) => void
+    fn: (...props: Array<unknown>) => void
 }): useSubI {
     const busContext = useContext(BusContext)
     const [id] = useState(`${messageType}_${Date.now()}_${crypto.randomUUID()} `)
 
     useEffect(() => {
+        // eslint-disable-next-line no-console
         // console.debug(`useSub registered: ${messageType}`)
         busContext?.addSub({
             id,
             messageType,
-            fn: (...props: any) => {
+            fn: (...props: Array<unknown>) => {
+                // eslint-disable-next-line no-console
                 // console.debug(`useSub triggered: ${messageType}, props: ${props}`)
                 return fn(...props)
             },

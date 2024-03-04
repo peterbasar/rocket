@@ -1,10 +1,10 @@
-import React, { MutableRefObject, LegacyRef } from 'react'
+import React, { MutableRefObject, RefObject } from 'react'
+import { CANVAS_TYPES } from '../const'
 import M from 'matter-js'
-import { CANVAS_TYPES } from '../app/page'
 
 export interface WorldTypes {
-    physicsCanvasRef: LegacyRef<HTMLCanvasElement | undefined>
-    renderCanvasRef: LegacyRef<HTMLCanvasElement | undefined>
+    physicsCanvasRef: RefObject<HTMLCanvasElement>
+    renderCanvasRef: RefObject<HTMLCanvasElement>
     engineRef: MutableRefObject<M.Engine | undefined>
     rocketRef: MutableRefObject<M.Body | undefined>
     renderRef: MutableRefObject<M.Render | undefined>

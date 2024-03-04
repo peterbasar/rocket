@@ -3,15 +3,11 @@ import { useState } from 'react'
 import dynamic from 'next/dynamic'
 import Controls from '../components/Controls'
 import BusContextProvider from '@/src/bus/BusContextProvider'
+import { CANVAS_TYPES } from '../const'
 
 /* Dynamic imports */
 const World = dynamic(() => import('../components/World/World'), { ssr: false })
 const Render = dynamic(() => import('../components/Render/Render'), { ssr: false })
-
-export enum CANVAS_TYPES {
-    PHYSICS = 'PHYSICS',
-    RENDER = 'RENDER',
-}
 
 export default function Home() {
     const [activeCanvas, setActiveCanvas] = useState(CANVAS_TYPES.RENDER)

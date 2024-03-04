@@ -1,4 +1,4 @@
-import { CANVAS_TYPES } from '../app/page'
+import { CANVAS_TYPES } from '../const'
 import { WorldTypes } from '../types/WorldTypes'
 import messageTypes from '../bus/messageTypes'
 import useSub from '../bus/useSub'
@@ -8,17 +8,24 @@ export default function Controls({
     activeCanvas,
     setActiveCanvas,
 }: {
-    activeCanvas: WorldTypes['activeCanvas'],
-    setActiveCanvas: WorldTypes['setActiveCanvas'],
+    activeCanvas: WorldTypes['activeCanvas']
+    setActiveCanvas: WorldTypes['setActiveCanvas']
 }) {
     const rocketRef: WorldTypes['rocketRef'] = useRef()
     const [speed, setSpeed] = useState(0)
 
     useSub({
         messageType: messageTypes['PHYSICS_TICK'],
-        fn: (props) => {
-            if (props && props.data.rocketRef && props.data.rocketRef.current) {
-                rocketRef.current = props.data.rocketRef.current
+        // @ts-expect-error Dynamic arguments
+        fn: ({
+            data,
+        }: {
+            data: {
+                rocketRef: WorldTypes['rocketRef']
+            }
+        }) => {
+            if (data && data.rocketRef) {
+                rocketRef.current = (data.rocketRef as WorldTypes['rocketRef']).current
                 if (rocketRef.current) {
                     setSpeed(rocketRef.current?.speed)
                 }
@@ -50,7 +57,7 @@ export default function Controls({
             >
                 Render
             </div>
-            <div className='absolute left-0 text-white top-24'>
+            <div className="absolute left-0 text-white top-24">
                 Speed: {Math.round(speed * 100) / 100}
             </div>
         </div>

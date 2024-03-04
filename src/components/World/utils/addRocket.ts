@@ -17,6 +17,7 @@ export default function addRocket({
         )
         M.Composite.add(engineRef.current.world, [rocketRef.current])
     } else {
+        // eslint-disable-next-line no-console
         console.error('Could not initialize the Rocket')
     }
 }

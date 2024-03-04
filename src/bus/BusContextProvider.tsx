@@ -15,7 +15,7 @@ type IPubs = {
 interface ISub {
     id: string
     messageType: messageTypesI
-    fn: (...props: any) => void
+    fn: (...props: Array<unknown>) => void
 }
 
 type ISubs = {
@@ -70,7 +70,7 @@ export default function BusContextProvider({ children }: { children: React.React
 }
 
 function getEmptySubs() {
-    let subs = {}
+    const subs = {}
     Object.entries(messageTypes).forEach((entry) => {
         Object.defineProperty(subs, entry[0], {
             value: {},
@@ -81,7 +81,7 @@ function getEmptySubs() {
 }
 
 function getEmptyPubs() {
-    let pubs = {}
+    const pubs = {}
     Object.entries(messageTypes).forEach((entry) => {
         Object.defineProperty(pubs, entry[0], {
             value: {},

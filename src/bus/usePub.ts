@@ -6,7 +6,7 @@ export interface usePubI {
     id: string
     messageType: messageTypesI
     unpub: () => void
-    publish: (...props: any) => void
+    publish: (...props: Array<unknown>) => void
 }
 
 export default function usePub({ messageType }: { messageType: messageTypesI }): usePubI {
@@ -15,6 +15,7 @@ export default function usePub({ messageType }: { messageType: messageTypesI }):
     const [id] = useState(`${messageType}_${Date.now()}_${crypto.randomUUID()} `)
 
     useEffect(() => {
+        // eslint-disable-next-line no-console
         // console.debug(`usePub registered: ${messageType}`)
         busContext?.addPub({ id, messageType })
     }, [])
@@ -23,8 +24,9 @@ export default function usePub({ messageType }: { messageType: messageTypesI }):
         busContext?.delPub(messageType, id)
     }
 
-    function publish(...props: any) {
+    function publish(...props: Array<unknown>) {
         if (busContext) {
+            // eslint-disable-next-line no-console
             // console.debug(
             //     `usePub triggered: ${messageType}, props: ${props}, sub count: ${Object.keys(busContext.subs).length}`,
             // )
@@ -33,6 +35,7 @@ export default function usePub({ messageType }: { messageType: messageTypesI }):
                 try {
                     entry[1].fn(...props)
                 } catch (e) {
+                    // eslint-disable-next-line no-console
                     console.error(e)
                 }
             })

@@ -7,15 +7,22 @@ import Img from './image.png'
 import messageTypes from '@/src/bus/messageTypes'
 
 export default function Render() {
-    const renderCanvasRef: WorldTypes['renderCanvasRef'] = useRef()
+    const renderCanvasRef: WorldTypes['renderCanvasRef'] = useRef(null)
     const tickerInterval: WorldTypes['tickerInterval'] = useRef()
     const rocketRef: WorldTypes['rocketRef'] = useRef()
 
     useSub({
         messageType: messageTypes['PHYSICS_TICK'],
-        fn: (props) => {
-            if (props && props.data.rocketRef && props.data.rocketRef.current) {
-                rocketRef.current = props.data.rocketRef.current
+        // @ts-expect-error Dynamic arguments
+        fn: ({
+            data,
+        }: {
+            data: {
+                rocketRef: WorldTypes['rocketRef']
+            }
+        }) => {
+            if (data.rocketRef && data.rocketRef.current) {
+                rocketRef.current = data.rocketRef.current
             }
         },
     })
@@ -48,7 +55,8 @@ export default function Render() {
 
     return (
         <canvas
-            ref={renderCanvasRef} className="absolute w-[100vw] h-[100vh] top-0"
+            ref={renderCanvasRef}
+            className="absolute w-[100vw] h-[100vh] top-0"
             width={window.innerWidth}
             height={window.innerHeight}
         />

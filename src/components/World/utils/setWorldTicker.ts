@@ -47,7 +47,7 @@ export default function setWorldTicker({
         tickPublisher.publish({
             data: {
                 rocketRef,
-            }
+            },
         })
     }, updateTime)
 }
